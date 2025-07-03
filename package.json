@@ -1,6 +1,12 @@
 {
     "name": "esptool-react",
     "version": "0.1.0",
+    "author": "Zach Grimaldi",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zpg6/esptool-react.git"
+    },
+    "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
