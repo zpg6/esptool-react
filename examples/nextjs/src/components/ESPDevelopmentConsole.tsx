@@ -3,6 +3,7 @@
 import { useEspLoader } from "esptool-react";
 import { AlertCircle, Code, Sliders, Terminal } from "lucide-react";
 import { useState } from "react";
+import { BrowserCompatibilityBanner } from "./BrowserCompatibilityBanner";
 import { ConsoleMode } from "./ConsoleMode";
 import { ProgrammingMode } from "./ProgrammingMode";
 import { Settings } from "./Settings";
@@ -25,6 +26,9 @@ export default function ESPDevelopmentConsole() {
                 </p>
             </div>
 
+            {/* Browser Compatibility Banner */}
+            <BrowserCompatibilityBanner />
+
             {/* Navigation Tabs with Content */}
             <Tabs
                 value={activeTab}
@@ -33,22 +37,22 @@ export default function ESPDevelopmentConsole() {
                 {/* Enhanced Tab Navigation */}
                 <div className="bg-card/60 backdrop-blur-sm border border-border/50 rounded-xl shadow-sm">
                     <TabsList className="grid w-full grid-cols-3 bg-transparent gap-2 p-1 h-12">
-                        <TabsTrigger 
-                            value="console" 
+                        <TabsTrigger
+                            value="console"
                             className="relative text-sm font-semibold h-10 px-3 rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-border/50 transition-all duration-200 hover:bg-secondary/50 flex items-center justify-center gap-2"
                         >
                             <Terminal className="w-4 h-4 hidden sm:inline-block" />
                             Console Mode
                         </TabsTrigger>
-                        <TabsTrigger 
-                            value="programming" 
+                        <TabsTrigger
+                            value="programming"
                             className="relative text-sm font-semibold h-10 px-3 rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-border/50 transition-all duration-200 hover:bg-secondary/50 flex items-center justify-center gap-2"
                         >
                             <Code className="w-4 h-4 hidden sm:inline-block" />
                             Programming Mode
                         </TabsTrigger>
-                        <TabsTrigger 
-                            value="settings" 
+                        <TabsTrigger
+                            value="settings"
                             className="relative text-sm font-semibold h-10 px-3 rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-border/50 transition-all duration-200 hover:bg-secondary/50 flex items-center justify-center gap-2"
                         >
                             <Sliders className="w-4 h-4 hidden sm:inline-block" />

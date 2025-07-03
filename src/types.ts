@@ -110,6 +110,9 @@ export interface ESPLoaderActions {
 // Ideally, this 'Transport' type would come from 'esptool-js' or a similar well-known WebSerial library.
 export type Transport = any;
 
+// Export browser compatibility types
+export type { WebSerialCompatibility } from "./utils/browserCompatibility";
+
 // Similarly, SerialPort is part of the Web Serial API standard.
 // We can use the types from '@types/w3c-web-serial' if added as a dev dependency,
 // or declare a minimal interface here.

@@ -1,6 +1,7 @@
 export * from "./context/ESPLoaderContext";
 export { ESPLoaderProvider } from "./context/ESPLoaderProvider";
 export { useEspLoader } from "./hooks/useEspLoader";
+export { useWebSerialCompatibility } from "./hooks/useWebSerialCompatibility";
 export type {
     ChipFirmwareRequirements,
     ESPFile,
@@ -15,7 +16,10 @@ export type {
     FlashOptions,
     FlashProgress,
     Transport,
+    WebSerialCompatibility,
 } from "./types";
+
+export type { UseWebSerialCompatibilityResult } from "./hooks/useWebSerialCompatibility";
 
 // Firmware guidance utilities
 export {
@@ -26,3 +30,6 @@ export {
     validateFile,
     validateFirmwareSet,
 } from "./utils/firmwareGuidance";
+
+// Browser compatibility utilities
+export { detectWebSerialCompatibility, testWebSerialFunctionality } from "./utils/browserCompatibility";
