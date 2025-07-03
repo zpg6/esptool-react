@@ -1,6 +1,6 @@
-# ESPTool React NextJS Example
+# ESPTool React Next.js Example - Cloudflare Pages
 
-This is a comprehensive example of using the `esptool-react` library in a Next.js application. It demonstrates all the key features of the ESPLoader tool including:
+This is a comprehensive example of using the `esptool-react` library in a Next.js application, optimized for deployment on Cloudflare Pages. It demonstrates all the key features of the ESPLoader tool including:
 
 - Connecting to ESP devices via WebSerial
 - Flashing firmware to ESP devices
@@ -13,11 +13,13 @@ This is a comprehensive example of using the `esptool-react` library in a Next.j
 - A modern browser that supports WebSerial API (Chrome, Edge)
 - An ESP32 or ESP8266 device connected via USB
 - Node.js and npm/pnpm/yarn installed
+- Cloudflare account (for deployment)
 
 ## Getting Started
 
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -27,6 +29,7 @@ yarn install
 ```
 
 3. Run the development server:
+
 ```bash
 npm run dev
 # or
@@ -36,6 +39,52 @@ yarn dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Deployment to Cloudflare Pages
+
+### Option 1: Using Wrangler CLI
+
+1. Install Wrangler globally:
+
+```bash
+npm install -g wrangler
+```
+
+2. Login to Cloudflare:
+
+```bash
+wrangler login
+```
+
+3. Build and deploy:
+
+```bash
+npm run pages:build
+npm run pages:deploy
+```
+
+### Option 2: Using Cloudflare Dashboard
+
+1. Build the project:
+
+```bash
+npm run build
+```
+
+2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) > Pages
+3. Create a new project
+4. Upload the `out` folder or connect your Git repository
+5. Configure build settings:
+    - Build command: `npm run build`
+    - Build output directory: `out`
+    - Node.js version: `18` or later
+
+### Important Notes for Cloudflare Pages
+
+- The application is configured for static export (`output: 'export'`)
+- Headers are configured in `public/_headers` for WebSerial API compatibility
+- The WebSerial API requires HTTPS, which Cloudflare Pages provides automatically
+- Cross-Origin headers are set to ensure proper WebSerial functionality
 
 ## Features Demonstrated
 
@@ -52,10 +101,10 @@ The `ESPLoaderProvider` component is configured with the following options:
 ```tsx
 <ESPLoaderProvider
     calculateMD5Hash={calculateMD5Hash} // Required for firmware validation
-    initialBaudrate={115200}            // Default programming baudrate
-    initialConsoleBaudrate={115200}     // Default console baudrate
-    initialDebugLogging={false}         // Enable/disable debug logging
-    initialRomBaudrate={460800}         // ROM baudrate (optional)
+    initialBaudrate={115200} // Default programming baudrate
+    initialConsoleBaudrate={115200} // Default console baudrate
+    initialDebugLogging={false} // Enable/disable debug logging
+    initialRomBaudrate={460800} // ROM baudrate (optional)
 >
     {/* Your application */}
 </ESPLoaderProvider>
@@ -67,6 +116,17 @@ The `ESPLoaderProvider` component is configured with the following options:
 - For best performance when flashing larger files, use higher baudrates (e.g., 460800 or 921600)
 - Enable debug logging if you encounter connection issues
 - Different ESP devices require different baudrate settings - consult your device documentation
+- The WebSerial API only works in secure contexts (HTTPS), which Cloudflare Pages provides automatically
+
+## Browser Compatibility
+
+The WebSerial API is supported in:
+
+- Chrome 89+
+- Edge 89+
+- Opera 75+
+
+Firefox and Safari do not currently support the WebSerial API.
 
 ## License
 
