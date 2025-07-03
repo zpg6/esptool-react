@@ -14,6 +14,7 @@ Demo implementation is available in the [`examples/nextjs/`](./examples/nextjs/)
 
 - 🔌 **React Hooks & Context**: Clean API for ESP device communication
 - 📱 **Web Serial API Integration**: Direct browser-to-device communication
+- 🌐 **Browser Compatibility Detection**: Automatic WebSerial support detection with user guidance
 - 🔧 **Firmware Validation**: Built-in validation and guidance utilities
 - 📊 **Real-time Progress**: Track flashing progress and device status
 - 🎯 **TypeScript Support**: Full type safety and IntelliSense
