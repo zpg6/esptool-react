@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { ESPLoaderContext, ESPLoaderContextType } from '../context/ESPLoaderContext';
+import { useContext } from "react";
+import { ESPLoaderContext, ESPLoaderContextType } from "../context/ESPLoaderContext";
 
 /**
  * Hook to access the ESP Loader context
@@ -7,11 +7,11 @@ import { ESPLoaderContext, ESPLoaderContextType } from '../context/ESPLoaderCont
  * @throws Error if used outside of ESPLoaderProvider
  */
 export function useEspLoader(): ESPLoaderContextType {
-  const context = useContext(ESPLoaderContext);
-  
-  if (context === undefined) {
-    throw new Error('useEspLoader must be used within an ESPLoaderProvider');
-  }
-  
-  return context;
-} 
+    const context = useContext(ESPLoaderContext);
+
+    if (context === undefined) {
+        throw new Error("useEspLoader must be used within an ESPLoaderProvider");
+    }
+
+    return context;
+}

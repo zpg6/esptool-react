@@ -1,5 +1,5 @@
 import React from "react";
-import type { ESPLoaderState, ESPLoaderActions } from "../types";
+import type { ESPLoaderActions, ESPLoaderState } from "../types";
 
 export interface ESPLoaderContextType {
     state: ESPLoaderState;

@@ -1,4 +1,4 @@
-import type { FlashOptions, ESPLoader } from "esptool-js";
+import type { ESPLoader, FlashOptions } from "esptool-js";
 
 export interface ESPFile {
     data: string;
@@ -13,9 +13,52 @@ export interface FlashProgress {
     total: number;
 }
 
+// Firmware file guidance types
+export type FirmwareFileType = "bootloader" | "partition_table" | "app" | "ota_data" | "nvs" | "phy_init" | "unknown";
+
+export interface FirmwareFileInfo {
+    type: FirmwareFileType;
+    isRequired: boolean;
+    description: string;
+    recommendedAddress?: number;
+    validAddresses?: number[];
+    chipSpecific?: boolean;
+}
+
+export interface ChipFirmwareRequirements {
+    chipName: string;
+    bootloaderAddress: number;
+    requiredFiles: {
+        [key in FirmwareFileType]?: FirmwareFileInfo;
+    };
+    commonAddresses: {
+        [key in FirmwareFileType]?: number;
+    };
+}
+
+export interface FileValidationResult {
+    isValid: boolean;
+    warnings: string[];
+    errors: string[];
+    suggestions: string[];
+    detectedType?: FirmwareFileType;
+}
+
+export interface FirmwareValidationSummary {
+    isComplete: boolean;
+    missingRequired: FirmwareFileType[];
+    addressConflicts: Array<{
+        file1: string;
+        file2: string;
+        address: number;
+    }>;
+    warnings: string[];
+    suggestions: string[];
+}
+
 // Re-exporting some types from esptool-js for convenience if consumers need them.
 // Consumers can also import them directly from 'esptool-js'.
-export type { FlashOptions, ESPLoader };
+export type { ESPLoader, FlashOptions };
 
 export interface ESPLoaderState {
     transport: Transport | null;
@@ -31,6 +74,9 @@ export interface ESPLoaderState {
     flashProgress: FlashProgress | null;
     baudrate: number;
     consoleBaudrate: number;
+    consoleDataBits: 7 | 8;
+    consoleStopBits: 1 | 2;
+    consoleParity: "none" | "even" | "odd";
     debugLogging: boolean;
 }
 
@@ -48,6 +94,9 @@ export interface ESPLoaderActions {
     getTrace: () => Promise<string[]>; // Assuming this would return an array of trace messages
     setBaudrate: (rate: number) => void;
     setConsoleBaudrate: (rate: number) => void;
+    setConsoleDataBits: (bits: 7 | 8) => void;
+    setConsoleStopBits: (bits: 1 | 2) => void;
+    setConsoleParity: (parity: "none" | "even" | "odd") => void;
     setDebugLogging: (enabled: boolean) => void;
     clearTerminal: () => void;
     // Connection health monitoring functions
@@ -71,8 +120,8 @@ declare global {
         open(options: SerialOptions): Promise<void>;
         close(): Promise<void>;
         getInfo(): SerialPortInfo;
-        getSignals?(): Promise<SerialInputSignals>; // Optional as per spec updates
-        setSignals?(signals: SerialOutputSignals): Promise<void>; // Optional
+        getSignals(): Promise<SerialInputSignals>;
+        setSignals(signals: SerialOutputSignals): Promise<void>;
         // Add other methods/properties if needed by the library e.g. forget()
         addEventListener(
             type: "disconnect" | "connect",
@@ -111,11 +160,6 @@ declare global {
         dataTerminalReady?: boolean;
         requestToSend?: boolean;
         break?: boolean;
-    }
-
-    // Navigator augmentation for navigator.serial (if not already handled by tsconfig lib or @types/w3c-web-serial)
-    interface Navigator {
-        serial?: Serial;
     }
 
     interface Serial {
